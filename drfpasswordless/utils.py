@@ -145,7 +145,8 @@ def send_email_with_callback_token(user, email_token, **kwargs):
         return False
 
 
-def send_sms_with_callback_token(user, mobile_token, **kwargs):
+# def send_sms_with_callback_token(user, mobile_token, **kwargs):
+def send_sms_with_callback_token(user, **kwargs):
     """
     Sends a SMS to user.mobile via Twilio.
 
@@ -161,13 +162,25 @@ def send_sms_with_callback_token(user, mobile_token, **kwargs):
                 # we assume success to prevent spamming SMS during testing.
                 return True
 
-            from twilio.rest import Client
-            twilio_client = Client(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN'])
-            twilio_client.messages.create(
-                body=base_string % mobile_token.key,
-                to=getattr(user, api_settings.PASSWORDLESS_USER_MOBILE_FIELD_NAME),
-                from_=api_settings.PASSWORDLESS_MOBILE_NOREPLY_NUMBER
+            #from twilio.rest import Client
+            from authy.api import AuthyApiClient
+
+            authy_api = AuthyApiClient('h9m2Kva4i4QCd4PjKHasliIb2DTdcQHG')
+
+            phone_verification = authy_api.phones.verification_start(
+                phone_number=getattr(user, api_settings.PASSWORDLESS_USER_MOBILE_FIELD_NAME),
+                country_code=54,
+                via='sms',
+                locale='es'
             )
+
+
+            #twilio_client = Client(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN'])
+            #twilio_client.messages.create(
+            #    body=base_string % mobile_token.key,
+            #    to=getattr(user, api_settings.PASSWORDLESS_USER_MOBILE_FIELD_NAME),
+            #    from_=api_settings.PASSWORDLESS_MOBILE_NOREPLY_NUMBER
+            #)
             return True
         else:
             log.debug("Failed to send token sms. Missing PASSWORDLESS_MOBILE_NOREPLY_NUMBER.")
