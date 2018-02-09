@@ -37,19 +37,24 @@ class AbstractBaseAliasAuthenticationSerializer(serializers.Serializer):
     @property
     def alias_type(self):
         # The alias type, either email or mobile
-        raise NotImplementedError
+        raise NotImplementedError\
+
 
     def validate(self, attrs):
         alias = attrs.get(self.alias_type)
-        print(attrs)
+        username = attrs.get(self.username)
+
         if alias:
             # Create or authenticate a user
-            # Return THem
+            # Return Them
 
             if api_settings.PASSWORDLESS_REGISTER_NEW_USERS is True:
                 # If new aliases should register new users.
 
-                user, created = User.objects.get_or_create(**{self.alias_type: alias})
+                user, created = User.objects.get_or_create(**{
+                    self.alias_type: alias,
+                    'username': username
+                })
             else:
                 # If new aliases should not register new users.
                 try:
@@ -91,7 +96,7 @@ class MobileAuthSerializer(AbstractBaseAliasAuthenticationSerializer):
                                          " '+999999999'. Up to 15 digits allowed.")
     # mobile = serializers.CharField(validators=[phone_regex], max_length=15)
     mobile = serializers.CharField(max_length=15)
-    username = serializers.CharField()
+    username = serializers.CharField(max_length=15)
 
 
 """
@@ -179,17 +184,17 @@ class AbstractBaseCallbackTokenSerializer(serializers.Serializer):
 class CallbackTokenAuthSerializer(AbstractBaseCallbackTokenSerializer):
 
     def validate(self, attrs):
-        print(attrs)
+
         verification_code = attrs.get('verification_code', None)
         phone_number = attrs.get('phone_number', None)
 
         # token = CallbackToken.objects.get(key=callback_token, is_active=True)
-        print(verification_code, phone_number)
+
         if verification_code and phone_number:
             from authy.api import AuthyApiClient
             authy_api = AuthyApiClient('h9m2Kva4i4QCd4PjKHasliIb2DTdcQHG')
             check = authy_api.phones.verification_check(phone_number, '54', verification_code)
-            print(check, check.ok())
+
             if check.ok():
                 user = User.objects.get(mobile=phone_number)
                 attrs['user'] = user
@@ -237,7 +242,7 @@ class CallbackTokenVerificationSerializer(AbstractBaseCallbackTokenSerializer):
         try:
             user_id = self.context.get("user_id")
             callback_token = attrs.get('token', None)
-            print('hola')
+
             token = CallbackToken.objects.get(key=callback_token, is_active=True)
             user = User.objects.get(pk=user_id)
 
