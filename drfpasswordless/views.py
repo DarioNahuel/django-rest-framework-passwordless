@@ -44,10 +44,11 @@ class AbstractBaseObtainCallbackToken(APIView):
         if self.alias_type.upper() not in api_settings.PASSWORDLESS_AUTH_TYPES:
             # Only allow auth types allowed in settings.
             return Response(status=status.HTTP_404_NOT_FOUND)
-
+        print(request)
         serializer = self.serializer_class(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             # Validate -
+            print('valid')
             user = serializer.validated_data['user']
             # Create and send callback token
             success = TokenService.send_token(user, self.alias_type, **self.message_payload)
@@ -59,7 +60,7 @@ class AbstractBaseObtainCallbackToken(APIView):
             else:
                 status_code = status.HTTP_400_BAD_REQUEST
                 response_detail = self.failure_response
-            return Response({'detail': response_detail}, status=status_code)
+            return Response({'detail': response_detail, 'status': status_code}, status=status_code)
         else:
             return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
@@ -130,6 +131,7 @@ class AbstractBaseObtainAuthToken(APIView):
     serializer_class = None
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.validated_data['user']
