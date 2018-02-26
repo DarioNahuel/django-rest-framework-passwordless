@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.core.validators import RegexValidator
+from django.conf import settings
 from rest_framework import serializers
 from .models import CallbackToken
 from .settings import api_settings
@@ -192,7 +193,7 @@ class CallbackTokenAuthSerializer(AbstractBaseCallbackTokenSerializer):
         print(verification_code, phone_number)
         if verification_code and phone_number:
             from authy.api import AuthyApiClient
-            authy_api = AuthyApiClient('h9m2Kva4i4QCd4PjKHasliIb2DTdcQHG')
+            authy_api = AuthyApiClient(settings.API_KEY)
             check = authy_api.phones.verification_check(phone_number, '54', verification_code)
             print(check, check.ok())
             if check.ok():
