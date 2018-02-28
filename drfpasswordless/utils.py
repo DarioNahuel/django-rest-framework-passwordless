@@ -3,7 +3,6 @@ import os
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.conf import settings
 from django.template import loader
 from django.utils import timezone
 from .models import CallbackToken
@@ -165,8 +164,8 @@ def send_sms_with_callback_token(user, **kwargs):
 
             #from twilio.rest import Client
             from authy.api import AuthyApiClient
+            authy_api = AuthyApiClient(api_settings.TWILIO_API_KEY)
 
-            authy_api = AuthyApiClient(settings.API_KEY)
 
             phone_verification = authy_api.phones.verification_start(
                 phone_number=getattr(user, api_settings.PASSWORDLESS_USER_MOBILE_FIELD_NAME),
