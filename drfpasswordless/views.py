@@ -82,8 +82,8 @@ class ObtainEmailCallbackToken(AbstractBaseObtainCallbackToken):
 
 class ObtainMobileCallbackToken(AbstractBaseObtainCallbackToken):
     serializer_class = MobileAuthSerializer
-    success_response = "We texted you a login code. v1.0.3 - joaquin credentias"
-    failure_response = "Unable to send you a login code. Try again later. v1.0.3 - joaquin credentias"
+    success_response = "We texted you a login code. v1.0.5"
+    failure_response = "Unable to send you a login code. Try again later. v1.0.5"
 
     alias_type = 'mobile'
 
