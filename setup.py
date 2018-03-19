@@ -18,14 +18,14 @@ def get_version(package):
         return re.search("__version__ = ['\"]([^'\"]+)['\"]", src).group(1)
 
 
-name = 'customdrfpasswordless'
-version = get_version('customdrfpasswordless')
-package = 'customdrfpasswordless'
-description = 'Customized Passwordless auth for Django Rest Framework Token Authentication.'
-url = 'https://github.com/fetux/django-rest-framework-passwordless'
-author = 'Fetux'
-author_email = ''
-license = ''
+name = 'drfpasswordless'
+version = get_version('drfpasswordless')
+package = 'drfpasswordless'
+description = 'Passwordless auth for Django Rest Framework Token Authentication.'
+url = 'https://github.com/aaronn/django-rest-framework-passwordles'
+author = 'Aaron Ng'
+author_email = 'hi@aaron.ng'
+license = 'MIT'
 install_requires = []
 
 
@@ -98,7 +98,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        # 'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
