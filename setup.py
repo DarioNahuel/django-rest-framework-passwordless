@@ -22,9 +22,9 @@ name = 'drfpasswordless'
 version = get_version('drfpasswordless')
 package = 'drfpasswordless'
 description = 'Passwordless auth for Django Rest Framework Token Authentication.'
-url = 'https://github.com/aaronn/django-rest-framework-passwordles'
-author = 'Aaron Ng'
-author_email = 'hi@aaron.ng'
+url = 'https://github.com/fetux/django-rest-framework-passwordless'
+author = 'Fetux'
+author_email = ''
 license = 'MIT'
 install_requires = []
 
