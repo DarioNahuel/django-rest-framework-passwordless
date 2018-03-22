@@ -164,8 +164,7 @@ def send_sms_with_callback_token(user, **kwargs):
 
             #from twilio.rest import Client
             from authy.api import AuthyApiClient
-
-            authy_api = AuthyApiClient('h9m2Kva4i4QCd4PjKHasliIb2DTdcQHG')
+            authy_api = AuthyApiClient(api_settings.TWILIO_API_KEY)
 
             phone_verification = authy_api.phones.verification_start(
                 phone_number=getattr(user, api_settings.PASSWORDLESS_USER_MOBILE_FIELD_NAME),

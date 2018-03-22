@@ -69,6 +69,8 @@ DEFAULTS = {
     # Automatically send verification email or sms when a user changes their alias.
     'PASSWORDLESS_AUTO_SEND_VERIFICATION_TOKEN': False,
 
+    # Twilio API key
+    'TWILIO_API_KEY': '',
 }
 
 # List of settings that may be in string import notation.
