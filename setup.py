@@ -33,7 +33,7 @@ def read(*paths):
     """
     Build a file path from paths and return the contents.
     """
-    with open(os.path.join(*paths), 'r', unicode="utf-8") as f:
+    with open(os.path.join(*paths), 'r', encoding="utf-8") as f:
         return f.read()
 
 
